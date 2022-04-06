@@ -1,0 +1,32 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^1.0.6",
+    "axios": "^0.26.1",
+    "helmet": "^5.0.2",
+    "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "next": "12.1.0",
+    "nprogress": "^0.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-google-login": "^5.2.2",
+    "react-helmet": "^6.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.4",
+    "eslint": "8.11.0",
+    "eslint-config-next": "12.1.0",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23"
+  }
+}
