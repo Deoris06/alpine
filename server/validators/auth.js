@@ -19,3 +19,12 @@ exports.userRegistervalidator = [
         .isLength({ min: 8 })
         .withMessage('Password must be at least 8 characters long')
 ]
+
+exports.userLoginValidator = [
+    check('email')
+        .isEmail()
+        .withMessage('Must be a valid email address'),
+    check('password')
+        .isLength({ min: 8 })
+        .withMessage('Password must be at least 8 characters long')
+]

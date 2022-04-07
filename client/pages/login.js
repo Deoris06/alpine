@@ -64,20 +64,20 @@ const LoginAccount = () => {
                     </div>
                     <div className='mt-8'>
                         <label class="font-light text-xs" for="usernameField">Email Address</label>
-                        <input class="flex items-center h-12 px-4 w-full ring-1 ring-yellow-700 border-t-0  mt-2 rounded-lg focus:outline-yellow-700 focus:ring-1" type="text" />
+                        <input class="flex items-center h-12 px-4 w-full ring-1 ring-yellow-500 border-t-0  mt-2 rounded-lg focus:outline-yellow-500 focus:ring-1" type="text" />
                     </div>
                     <div className='mt-5'>
                         <label class="font-light text-xs" for="usernameField">Password</label>
-                        <input class="flex items-center h-12 px-4 w-full ring-1 ring-yellow-700 bg-white mt-2 rounded-lg focus:outline-yellow-700 focus:ring-1" type="password" />
+                        <input class="flex items-center h-12 px-4 w-full ring-1 ring-yellow-500 bg-white mt-2 rounded-lg focus:outline-yellow-500 focus:ring-1" type="password" />
                     </div>
                     <div className='mt-5'>
-                        <button  className="justify-self-start inline-flex items-center text-xs font-semibold text-white px-6 h-12 rounded-full shadow-sm bg-yellow-700 duration-200 hover:text-deep-purple-accent-700">
+                        <button  className="justify-self-start inline-flex items-center text-xs font-semibold text-white px-6 h-12 rounded-full shadow-sm bg-yellow-500 duration-200 hover:text-deep-purple-accent-700">
                             {buttonText}
                         </button>
                     </div>
                     <div className=' mt-8'>
                         <div className=" relative border-t-2 border-gray-200">
-                            <div className='text-amber-700 bg-white p-3 absolute left-52 -top-5 bottom-56 text-xs'>Or</div>
+                            <div className='text-amber-500 bg-white p-3 absolute left-52 -top-5 bottom-56 text-xs'>Or</div>
                         </div>
                         
                     </div>

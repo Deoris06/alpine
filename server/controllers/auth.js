@@ -86,4 +86,66 @@ exports.registerActivate = catchAsyncErrors( async (req, res, next) => {
         })
     })
     
+});
+
+//login account
+exports.login = catchAsyncErrors(async (req, res, next) => {
+    const { email, password } = req.body
+    User.findOne({ email }).exec((err, user ) => {
+        if(err || !user ) {
+            return res.status(400).json({
+                error: "User does not exist!"
+            })
+        }
+        //authenticate the user then
+        if(!user.authenticate(password)){
+            return res.status(400).json({
+                error: "Email or password does not match"
+            })
+        }
+        //Generate token and send it to the client machine
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d'});
+        const { _id, first_name, email, role } = user;
+
+        return res.json({
+            token,
+            user: { _id, first_name, email, role}
+        })
+    })
+})
+
+exports.requireSignin  = expressJwt({ secret: process.env.JWT_SECRET, algorithms: ['sha1', 'RS256', 'HS256'] })
+
+exports.authMiddleware = catchAsyncErrors( async( req, res, next) => {
+
+    const authUserId = req.user._id;
+    User.findOne({ _id: authUserId}).exec(( err, user) => {
+        if(err || !user){
+            return res.status(400).json({
+                error: "User not found"
+            })
+        }
+        req.profile = user
+        next()
+    })
+})
+
+exports.adminMiddleware = catchAsyncErrors( async(req, res, next ) => {
+    const adminUserId = req.user._id;
+    User.findOne({ _id: adminUserId}).exec(( err, user ) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        }
+
+        if (user.role !== 'admin') {
+            return res.status(400).json({
+                error: 'Admin resource. Access denied'
+            });
+        }
+
+        req.profile = user;
+        next();
+    })
 })
