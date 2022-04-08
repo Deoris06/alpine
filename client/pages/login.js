@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Metadata from '../components/MetaData';
 import { showSuccessMessage, showErrorMessage } from '../helpers/alert';
 import { GoogleLogin } from 'react-google-login';
+import { authenticate, isAuth } from '../helpers/auth';
 
 const LoginAccount = () => {
     const [state, setState] = useState({
@@ -26,22 +27,15 @@ const LoginAccount = () => {
         setState({ ...state, buttonText: 'Signing in...'})
 
         try{
-            if(password !== c_password){
-                setState({...state, buttonText: 'Sign in'})
-            }
-            const response = await axios.post(`${API}/register`, {
+            const response = await axios.post(`${API}/login`, {
                 email,
                 password
             })
             console.log(response);
-            setState({
-                ...state,
-                email: '',
-                password: '',
-                buttonText: 'Done',
-                success: response.data.message
-            });
-            // Router.push(`/message/confirmation/${email}`)
+            authenticate(response, () => 
+                isAuth() && isAuth().role === 'admin' ? Router.push('admin') : Router.push('/shopper')
+            )
+            
         } catch(error) {
             console.log(error);
             setState({ ...state, buttonText:'Create Account', error: error.response.data.error})
@@ -63,12 +57,24 @@ const LoginAccount = () => {
                         </Link>
                     </div>
                     <div className='mt-8'>
-                        <label class="font-light text-xs" for="usernameField">Email Address</label>
-                        <input class="flex items-center h-12 px-4 w-full ring-1 ring-yellow-500 border-t-0  mt-2 rounded-lg focus:outline-yellow-500 focus:ring-1" type="text" />
+                        <label className="font-light text-xs" for="usernameField">Email Address</label>
+                        <input 
+                        value={email}
+                        onChange={handleChange('email')}
+                        className="text-xs flex items-center h-12 px-4 w-full ring-1 ring-yellow-500 border-t-0  mt-2 rounded-lg focus:outline-yellow-500 focus:ring-1" 
+                        type="email" 
+                        placeholder='Enter your email'
+                        />
                     </div>
                     <div className='mt-5'>
-                        <label class="font-light text-xs" for="usernameField">Password</label>
-                        <input class="flex items-center h-12 px-4 w-full ring-1 ring-yellow-500 bg-white mt-2 rounded-lg focus:outline-yellow-500 focus:ring-1" type="password" />
+                        <label className="font-light text-xs" for="usernameField">Password</label>
+                        <input 
+                        value={password}
+                        onChange={handleChange('password')}
+                        className="text-xs flex items-center h-12 px-4 w-full ring-1 ring-yellow-500 bg-white mt-2 rounded-lg focus:outline-yellow-500 focus:ring-1" 
+                        type="password" 
+                        placeholder='Enter your password'
+                        />
                     </div>
                     <div className='mt-5'>
                         <button  className="justify-self-start inline-flex items-center text-xs font-semibold text-white px-6 h-12 rounded-full shadow-sm bg-yellow-500 duration-200 hover:text-deep-purple-accent-700">
@@ -109,7 +115,8 @@ const LoginAccount = () => {
                     </div>
                     <div className='bg-transparent'>
                         {loginForm()}
-                        
+                        {success && showSuccessMessage(success)}
+                {error && showErrorMessage(error)}
                     </div>
                     
                 </div>
