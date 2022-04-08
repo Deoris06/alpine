@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "axios": "^0.26.1",
     "helmet": "^5.0.2",
@@ -20,7 +21,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-google-login": "^5.2.2",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "react-scroll": "^1.8.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.4",

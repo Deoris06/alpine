@@ -116,7 +116,7 @@ const LoginAccount = () => {
                     <div className='bg-transparent'>
                         {loginForm()}
                         {success && showSuccessMessage(success)}
-                {error && showErrorMessage(error)}
+                        {error && showErrorMessage(error)}
                     </div>
                     
                 </div>
