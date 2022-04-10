@@ -33,7 +33,7 @@ const LoginAccount = () => {
             })
             console.log(response);
             authenticate(response, () => 
-                isAuth() && isAuth().role === 'admin' ? Router.push('admin') : Router.push('/shopper')
+                isAuth() && isAuth().role === 'admin' ? Router.push('admin') : Router.push('/')
             )
             
         } catch(error) {

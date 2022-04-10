@@ -29,7 +29,7 @@ exports.register =  catchAsyncErrors(async (req, res, next) => {
         }
         console.log(req.body);
         //Generate token with data from req.body
-        const token = tokenGenerator(req.body, '60m')
+        const token = tokenGenerator(req.body, '1d')
 
         //send activation email to complete registeration and store info in db
         const params = registerEmailTemplate(email, token, first_name)
@@ -75,9 +75,10 @@ exports.registerActivate = catchAsyncErrors( async (req, res, next) => {
             console.log(newUser)
             newUser.save(( err, result) => {
                 if(err){
-                    return res.json({
-                        message: next(new ErrorHandler('User cannot be saved', 401))
-                    })
+                    // return res.json({
+                    //     message: next(new ErrorHandler('User cannot be saved', 401))
+                    // })
+                    console.log(err)
                 }
                 return res.json({
                     message: 'Registration success. Please login.'

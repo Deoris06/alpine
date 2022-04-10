@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             trim: true,
             max: 15,
-            unique: true
+            default: '2348040100200'
         },
         hashed_password: {
             type: String,
@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
             default: 'shopper'
         },
         resetPasswordLink: {
-            data: String,
+            type: String,
             default: ''
         },
         provider: {

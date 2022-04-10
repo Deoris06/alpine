@@ -1,82 +1,86 @@
-import cookies from "js-cookie";
-import Router from "next/router";
-
-
-//set in cookie
+import cookie from 'js-cookie';
+import Router from 'next/router';
+// set in cookie
 export const setCookie = (key, value) => {
-    if(window !== undefined){
-        cookies.set(key, value, {
+    if (process.browser) {
+        cookie.set(key, value, {
             expires: 1
-        })
+        });
     }
-}
+};
 
-//remove from cookie
+// remove from cookie
 export const removeCookie = key => {
-    if(window !== undefined){
-        cookies.set(key)
+    if (process.browser) {
+        cookie.set(key);
     }
-}
+};
 
-//Get information from cookie such as stored token
-export const getCookie = ( key, req ) => {
-    return window ? getCookieFromBrowser(key) : getCookieFromServer( key, req)
-}
+// get from cookie such as stored token
+// will be useful when we need to make request to server with auth token
+export const getCookie = (key, req) => {
+    // if (process.browser) {
+    //     return cookie.get(key);
+    // }
+    return process.browser ? getCookieFromBrowser(key) : getCookieFromServer(key, req);
+};
 
 export const getCookieFromBrowser = key => {
-    return cookies.get(key)
-}
+    return cookie.get(key);
+};
 
-export const getCookieFromServer = ( key, req ) => {
-    if(!req.headers.cookies){
+export const getCookieFromServer = (key, req) => {
+    if (!req.headers.cookie) {
         return undefined;
     }
-    console.log('req.headers.cookies', req.headers.cookies)
-    let token = req.headers.cookies.split(';').find(c => c.trim().startsWith(`${key}=`))
-    if(!token){
-        return undefined
+    console.log('req.headers.cookie', req.headers.cookie);
+    let token = req.headers.cookie.split(';').find(c => c.trim().startsWith(`${key}=`));
+    if (!token) {
+        return undefined;
     }
-    let tokenValue = token.split('=')[1]
+    let tokenValue = token.split('=')[1];
     console.log('getCookieFromServer', tokenValue);
-    return tokenValue
-}
+    return tokenValue;
+};
 
-//set in Localstorage
-export const setLocalStorage = ( key , value )=> {
-    if(window !== undefined){
-        localStorage.setItem(key, JSON.stringify(value))
+// set in localstoarge
+export const setLocalStorage = (key, value) => {
+    if (process.browser) {
+        localStorage.setItem(key, JSON.stringify(value));
     }
-}
+};
 
-//remove from Localstorage
+// remove from localstorage
 export const removeLocalStorage = key => {
-    if(window !== undefined){
-        localStorage.removeItem(key)
+    if (process.browser) {
+        localStorage.removeItem(key);
     }
-}
+};
 
-
-//authenticate user by passing data to cookie and localstorage
-export const authenticate = ( response, next ) => {
+// authenticate user by passing data to cookie and localstorage during signin
+export const authenticate = (response, next) => {
     setCookie('token', response.data.token);
-    setLocalStorage('user', response.data.user)
-    next()
-}
+    setLocalStorage('user', response.data.user);
+    next();
+};
 
+// access user info from localstorage
 export const isAuth = () => {
-    if(window !== undefined){
-        const cookieChecked = getCookie('token')
-        if(cookieChecked){
-            if(localStorage.getItem('user')){
-                return JSON.parse(localStorage.getItem('user'))
+    if (process.browser) {
+        const cookieChecked = getCookie('token');
+        if (cookieChecked) {
+            if (localStorage.getItem('user')) {
+                return JSON.parse(localStorage.getItem('user'));
             } else {
-                return false
+                return false;
             }
         }
     }
-}
+};
+
 export const logout = () => {
     removeCookie('token');
     removeLocalStorage('user');
-    Router.push('/login')
-}
+    Router.push('/');
+};
+
